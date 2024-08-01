@@ -1,0 +1,115 @@
+
+Detecting Colors with Nueral Network on FPGA
+	-Generate Parameters
+	-Two FPGA Implementations
+	-Given an image, can we detect color?
+
+Machine Learning
+	Supervised
+		-data with labels
+	Unsupervised 
+		-classification
+		-find patterns in data
+	Reinforcement
+		-result of your decision
+		-win/lose method to change params
+
+Neural Network - Fueron
+In a biological neuron cell, they have several inputs, plus a constant input bias
+Inputs are multiplied by a factor Theta and added together
+Result of addition given to activation function
+
+Layers of Neurons 
+	Input Layer, Hidden Layers, Output Layer
+	Several stages for Convolution, Pooling:
+		-Convolution: Nueral Network for a region
+		-Pooling: Subsample data by selecting average or minimum
+
+	Input -> Conv -> Pool -> Conv -> Pool -> Dense Layer
+
+
+	
+Computing Effort
+	-Training (Optimization of Network parameters);
+	-Reoptimization of params
+	-High data rate input
+
+
+CPU: very flexible, limited computing power
+GPU: high computing power due to parallel units
+FPGA: high computing power due to implementation as hardware
+ASIC: extreme computing power (limited)
+
+
+FPGA Implementation
+
+Given R,G,B can you detect colors?
+
+3 Nuerons, 1 Hidden Layer, 1 Output Layer
+
+Block Diagram: 
+	Each neuron has 4 Parameters : Bias, and 3 factors for 3 input signals
+
+	Simple output classifier, if output > 0.5, white pixel, else black
+
+
+VHDL Files
+Nueron.vhd
+	-rin, gin, bin -> NN -> Color Mapping -> rout, gout, bout
+	
+Control.vhd
+	-h-sync, v-sync, data-enable -> delay
+
+
+
+Implementation Of Nueron
+	8 bit x1,x2,x3
+	Multiply by w1,w2,w3
+	14 bit bias (can be changed)
+	Sigmoid ROM (Implement sigmoid using Read Only Memory lookup table)
+	8 bit output
+ 
+	
+Implementation of Sigmoid
+	sigmoid_IP.vhd
+	mif file of memory content
+
+Why we need higher computing power
+720p format, 74.25 pixel frequency
+
+Processing effort:
+	For each clock cycle:
+		12 multiplications
+		12 additions
+		4 sigmoid functions
+		Color Mapping
+
+Pipeline Stages 
+	Multiply
+	Addition
+	ROM lookup
+	Color Mapping OR go back to Multiply 
+
+Implement Design in Fixed point
+Conversion of Floating-Point parameters to Fixed-Point 
+	5 decimal places for w1,w2,w3
+		-> shift by 5 bit
+	input x1,x2,x3 have 8 bit ie 0 to 255
+		-This is normalized to value of 0 to 1
+		-shift bias by 8 bit
+			-Fixed-point scaling to 8 bit fraction
+
+
+	Future:
+		change decimal places
+		change word width for sigmoid-ROM
+
+
+
+Sigmoid-ROM
+	precomputed sigmoid value can be retrieved if already computed
+	taking address from waited sum and outputting corresponding sigmoid from LUT 
+
+
+
+	
