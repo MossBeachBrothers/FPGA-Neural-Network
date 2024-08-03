@@ -10,7 +10,7 @@ The input image and the processed output image are displayed and compared to ill
 
 The original image is read from `bird_rgb_values.txt` and visualized below:
 
-![Original Image](original_image.jpg)
+![Original Image](bird.jpg)
 
 ## Processed Output Image
 
