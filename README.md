@@ -4,7 +4,7 @@ This project implements a simple neural network in Verilog to run on an FPGA for
 To gain understanding, hardware modules for Neuron, Neural Network, Sigmoid IP (Using Read-Only Memory), and Control Signal Timing were created.
 ## Project Overview
 
-The input image and the processed output image are displayed and compared to illustrate the color detection capabilities of the neural network.
+The input image and the processed output image are displayed and compared to illustrate the color detection capabilities of the neural network. These weights are initialized so it could detect blue values. 
 
 ## Original Image
 
